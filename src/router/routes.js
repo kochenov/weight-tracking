@@ -1,4 +1,4 @@
-//import { routes as authRoutes } from "src/modules/auth";
+import { routes as authRoutes } from "src/modules/auth";
 
 const routes = [
   {
@@ -15,4 +15,4 @@ const routes = [
   },
 ];
 
-export default [...routes];
+export default [...routes, ...authRoutes];
