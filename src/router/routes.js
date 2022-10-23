@@ -1,4 +1,5 @@
 import { routes as authRoutes } from "src/modules/auth";
+import { routes as controlsRoutes } from "src/modules/controls";
 
 const routes = [
   {
@@ -15,4 +16,4 @@ const routes = [
   },
 ];
 
-export default [...routes, ...authRoutes];
+export default [...routes, ...authRoutes, ...controlsRoutes];
