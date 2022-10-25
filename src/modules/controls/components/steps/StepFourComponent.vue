@@ -14,9 +14,9 @@
     />
     <q-btn
       flat
-      @click="getListResult()"
+      to="/result-all"
       color="primary"
-      label="Обновить"
+      label="Список расчётов"
       class="q-ml-sm"
     />
   </q-stepper-navigation>
@@ -85,7 +85,7 @@ const getListResult = async () => {
     );
 
     series.value[0].data = controlStore.resultGraphSeries;
-    series.value[0].data.unshift({ x: "Рождение", y: 10 });
+    //series.value[0].data.unshift({ x: "Рождение", y: 10 });
   } catch (error) {
     console.log(error);
   }

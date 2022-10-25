@@ -56,6 +56,7 @@
               autofocus
               :rules="[(val) => !!val || 'Поле нужно заполнить']"
             />
+
             <q-input
               class="q-pa-sm"
               label="Краткое описание партии"
@@ -312,10 +313,8 @@ const filterFn = (val, update) => {
   });
 };
 
-onMounted(async () => {
-  await controlStore.getListParts();
-  stringOptions.value = null;
-  stringOptions.value = controlStore.allParts;
+onMounted(() => {
+  updateListParts();
 });
 
 const inputVes = async () => {
@@ -367,6 +366,7 @@ const addPart = async () => {
       color: "green",
     });
     part.value = {};
+    updateListParts();
   } else {
     Notify.create({
       message: "Название партии обязательно к заполнению!",
@@ -375,6 +375,11 @@ const addPart = async () => {
   }
 };
 
+const updateListParts = async () => {
+  await controlStore.getListParts();
+  stringOptions.value = null;
+  stringOptions.value = controlStore.allParts;
+};
 // Проверка на ошибки выбора животного
 const isError = () => {
   if (!controlStore.currentPart) {

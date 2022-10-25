@@ -132,7 +132,7 @@
 </template>
 
 <script setup>
-import { useUserStore, useAuthStore, useControlStore } from "src/stores/all";
+import { useControlStore } from "src/stores/all";
 import StepOneConponent from "../components/steps/StepOneConponent.vue";
 import StepTwoComponent from "../components/steps/StepTwoComponent.vue";
 import StepThreeConponent from "../components/steps/StepThreeConponent.vue";
@@ -140,8 +140,6 @@ import StepFourComponent from "../components/steps/StepFourComponent.vue";
 /**
  * Инициализация хранилищ
  */
-const userStore = useUserStore(); // Хранилище пользователей
-const authStore = useAuthStore(); // Хранилище информации об аутентификации
 const controlStore = useControlStore(); // Хранилище расчётов
 </script>
 <style lang="scss">

@@ -20,6 +20,7 @@ export const useControlStore = defineStore("controlStore", {
     resultGraphOptions: [], // Опции для гафафика
     resultGraphSeries: [], // Вес
     resultGraph: [], // Общий результат
+    allResults: [],
     error: null,
     loading: false,
   }),
@@ -164,11 +165,11 @@ export const useControlStore = defineStore("controlStore", {
       };
       const updates = {};
       updates[
-        "/animals-history/UID-" +
+        "/animals-history/" +
           authStore.user.uid +
           "/" +
           this.currentAnimal.label +
-          "/part" +
+          "/" +
           this.currentPart.label +
           "/" +
           this.oldAnimals
@@ -185,12 +186,7 @@ export const useControlStore = defineStore("controlStore", {
       const authStore = useAuthStore();
       const dbRef = ref(
         db,
-        "animals-history/UID-" +
-          authStore.user.uid +
-          "/" +
-          animal +
-          "/part" +
-          part
+        "animals-history/" + authStore.user.uid + "/" + animal + "/" + part
       );
 
       try {
@@ -205,6 +201,26 @@ export const useControlStore = defineStore("controlStore", {
             this.resultGraphSeries.push({
               x: Number(childKey) + " дней",
               y: Number(childData.scope),
+            });
+          });
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async getListAllResult() {
+      const authStore = useAuthStore();
+      const dbRef = ref(db, "animals-history/" + authStore.user.uid + "/");
+      this.allResults = [];
+      try {
+        await onValue(dbRef, (snapshot) => {
+          snapshot.forEach((childSnapshot) => {
+            const childKey = childSnapshot.key;
+            const childData = childSnapshot.val();
+            this.allResults.push({
+              animal: childKey,
+              parts: childData,
             });
           });
         });

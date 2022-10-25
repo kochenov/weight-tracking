@@ -50,7 +50,6 @@
 </template>
 
 <script setup>
-import { async } from "@firebase/util";
 import { Notify } from "quasar";
 import { useControlStore } from "src/stores/all";
 import { ref } from "vue";
