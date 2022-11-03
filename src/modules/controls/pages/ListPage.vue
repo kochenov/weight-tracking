@@ -1,6 +1,6 @@
 <template>
   <div class="q-px-lg">
-    <h1 class="text-center text-h3">Список всех расчётов</h1>
+    <h1 class="text-center text-h5">Список всех расчётов</h1>
     <q-separator />
   </div>
   <div class="q-pa-lg q-gutter-lg flex flex-center">
@@ -33,7 +33,9 @@
       <q-separator dark />
 
       <q-card-actions class="flex flex-center">
-        <q-btn class="save-btn" flat to="/">Расчёты</q-btn>
+        <q-btn class="save-btn" flat :to="'/result/' + item.animal + '/'"
+          >Расчёты</q-btn
+        >
       </q-card-actions>
     </q-card>
   </div>

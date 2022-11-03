@@ -34,8 +34,23 @@
     </q-header>
 
     <q-drawer v-model="leftDrawerOpen" bordered>
-      <q-list>
-        <q-item-label header> Essential Links </q-item-label>
+      <q-list padding>
+        <q-item-label header>Навигация</q-item-label>
+
+        <q-item-label header v-ripple>
+          <q-list bordered separator>
+            <q-item to="/" clickable v-ripple exact>
+              <q-item-section>Главная</q-item-section>
+            </q-item>
+
+            <q-item to="/result-all" clickable v-ripple>
+              <q-item-section>
+                <q-item-label>Список расчётов</q-item-label>
+                <q-item-label caption>Контроль веса животных</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-item-label>
       </q-list>
     </q-drawer>
 
@@ -49,7 +64,7 @@
 import { useAuthStore } from "src/stores/all";
 import { ref } from "vue";
 
-const leftDrawerOpen = ref(false);
+const leftDrawerOpen = ref(true);
 const authStore = useAuthStore();
 
 const toggleLeftDrawer = () => {

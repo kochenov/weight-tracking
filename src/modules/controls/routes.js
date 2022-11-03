@@ -16,6 +16,16 @@ export default [
         name: "listAll",
         component: () => import("./pages/ListPage.vue"),
       },
+      {
+        path: "/result/:currentAnimal",
+        name: "resultOneAnimal",
+        component: () => import("./pages/FullPage.vue"),
+      },
+      {
+        path: "/stat/:animal/:part",
+        name: "stat",
+        component: () => import("./pages/StatPage.vue"),
+      },
     ],
   },
 ];

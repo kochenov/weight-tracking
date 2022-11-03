@@ -4,6 +4,7 @@ import { useAuthStore } from "stores/all";
 import { useUserStore } from "stores/all";
 import { db } from "boot/firebase";
 import { ref, child, push, update, onValue } from "firebase/database";
+import { markRaw, toRaw } from "vue";
 
 export const useControlStore = defineStore("controlStore", {
   state: () => ({
@@ -20,7 +21,8 @@ export const useControlStore = defineStore("controlStore", {
     resultGraphOptions: [], // Опции для гафафика
     resultGraphSeries: [], // Вес
     resultGraph: [], // Общий результат
-    allResults: [],
+    allResults: [], // Все результаты , для всех животных
+    listPartsResult: [], // Список партий, конкретного животного, если есть расчёты
     error: null,
     loading: false,
   }),
@@ -183,30 +185,34 @@ export const useControlStore = defineStore("controlStore", {
      *
      */
     async getListHistory(animal, part) {
-      const authStore = useAuthStore();
-      const dbRef = ref(
-        db,
-        "animals-history/" + authStore.user.uid + "/" + animal + "/" + part
-      );
+      return new Promise((resolve) => {
+        const authStore = useAuthStore();
+        const dbRef = ref(
+          db,
+          "animals-history/" + authStore.user.uid + "/" + animal + "/" + part
+        );
 
-      try {
         this.resultGraphOptions = [];
         this.resultGraphSeries = [];
-        await onValue(dbRef, (snapshot) => {
+        this.currentAnimal = null;
+        onValue(dbRef, (snapshot) => {
           snapshot.forEach((childSnapshot) => {
             const childKey = childSnapshot.key;
             const childData = childSnapshot.val();
             this.resultGraph.push(childData);
-            //this.resultGraphOptions.push(Number(childKey) + " дней");
+            if (!this.currentAnimal) {
+              this.currentAnimal = childData.animal;
+            }
+            this.resultGraphOptions.push(childData.scope);
             this.resultGraphSeries.push({
               x: Number(childKey) + " дней",
               y: Number(childData.scope),
             });
           });
         });
-      } catch (error) {
-        console.log(error);
-      }
+
+        resolve(true);
+      });
     },
 
     async getListAllResult() {
@@ -231,7 +237,7 @@ export const useControlStore = defineStore("controlStore", {
   },
 
   getters: {
-    //getAllAnimals: (state) => [...state.allAnimals, ...state.userAnimals],
+    //getCurrentAnimal: (state) => state.resultGraph[0].animal,
     /*isAdmin: (state) => (state.user ? state.user.isAdmin : false), */
   },
 });
